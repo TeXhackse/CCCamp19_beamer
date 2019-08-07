@@ -1,0 +1,449 @@
+\ProvidesPackage{beamerthemecccamp19}
+
+\PassOptionsToPackage{sectionpage=simple}{beamerinnerthememetropolis}
+\PassOptionsToPackage{progressbar=foot}{beamerouterthememetropolis}
+
+\RequirePackage{l3keys2e}
+
+\RequirePackage{fontspec}
+\setmainfont{Fira Sans}
+
+%Code font with Ligatures:
+\ExplSyntaxOn
+
+\tl_new:c {g_CCCamp19_rocket_tl}
+\int_new:c {g_CCCamp19_frametitle_int}
+\bool_new:c  {g_CCCamp19_frametitle_bool}
+
+\keys_define:nn {CCCamp19} {
+	rocket .choices:nn = {all, chaos, communication, camp, none} {
+		\tl_gset_eq:cN {g_CCCamp19_rocket_tl} \l_keys_choice_tl
+	},
+	rocket .initial:n = all,
+	frametitle .choices:nn = {chaos, communication, camp, all} {
+		\exp_args:NV \tl_if_eq:nnTF  \l_keys_choice_tl {all} {
+			\bool_gset_true:c {g_CCCamp19_frametitle_bool}
+			\int_gset_eq:cN {g_CCCamp19_frametitle_int} \c_one_int
+		}{
+			\int_gset_eq:cN {g_CCCamp19_frametitle_int} \l_keys_choice_int
+			\bool_gset_false:c {g_CCCamp19_frametitle_bool}
+		}
+	},
+	frametitle .initial:n = all,
+	codeligatures .bool_gset:c = {g_CCCamp19_codeligatures_bool},
+	codeligatures .initial:n = true,
+	codeligatures .default:n = true,
+	titlepos .tl_gset:c = {g_CCCamp19_title_position_tl},
+	titlepos .initial:n = {(-.16\textwidth,.28\paperheight)},
+	numbering .code:n = {\PassOptionsToPackage{numbering=#1}{beamerouterthememetropolis}},
+	progressbar .bool_gset:c = {g_CCCamp19_progressbar_bool},
+	progressbar .initial:n = true,
+	titleimage .tl_gset:c = {g_CCCamp19_titleimage_tl},
+	titleimage .initial:n = resources/camp_start_(photo_richard-nolan)_clean,
+}
+
+\ProcessKeysOptions{CCCamp19}
+
+\RequirePackage{beamerthememetropolis}
+
+\newcommand*\ChangeOptions[1]{\keys_set:nn {CCCamp19}{#1}}
+
+\bool_show:c {g_CCCamp19_codeligatures_bool}
+
+\bool_if:cTF {g_CCCamp19_codeligatures_bool} {
+	\setmonofont[
+	Contextuals={Alternate}
+	]{Fira Code}
+	\renewcommand*\verbatim@nolig@list{} % Empty the no-ligature list
+}{
+	\setmainfont{Fira Code}
+}
+\ExplSyntaxOff
+
+
+\newfontfamily\headerfont[BoldFont=Marvel-Bold,ItalicFont=Marvel-RegularItalic,BoldItalicFont=Marvel-BoldItalic]{Marvel-Regular}
+
+
+
+
+%Color definitions
+
+\definecolor{chaosblue}{HTML}{0076ba}
+\definecolor{chaosblue-dark}{HTML}{005383}
+\definecolor{commyellow}{HTML}{ffc600}
+\definecolor{commyellow-dark}{HTML}{d39a00}
+\definecolor{campgreen}{HTML}{99ba00}
+\definecolor{campgreen-dark}{HTML}{6f8700}
+
+\definecolor{easterhegg}{RGB}{0,103,153}
+
+
+\pgfkeys{/metropolis/color/.cd,
+	background=light,
+	block=fill,
+}
+
+\setbeamercolor{title}{fg=commyellow}
+\setbeamercolor{subtitle}{fg=campgreen}
+\setbeamercolor{author}{fg=chaosblue}
+\setbeamercolor{institute}{fg=chaosblue}
+\setbeamercolor{headline framenumber}{fg=easterhegg}
+\setbeamercolor{peitex}{bg=easterhegg,fg=easterhegg}
+
+
+\colorlet{CCCamp19-1}{chaosblue}
+\colorlet{CCCamp19-2}{commyellow}
+\colorlet{CCCamp19-3}{campgreen}
+%\setbeamercolor*{frametitle}{fg=chaosblue-dark,bg=chaosblue}
+\ExplSyntaxOn
+\setbeamercolor*{frametitle}{fg=CCCamp19-\int_use:c {g_CCCamp19_frametitle_int} ,bg=black!80}
+\ExplSyntaxOff
+\setbeamerfont{frametitle}{family=\headerfont,series=\bfseries,size=\LARGE}
+
+
+
+
+\setbeamercolor{progress bar}{%
+%	use=easterhegg,
+	fg=white,
+	bg=black!80
+%	bg=easterhegg.fg!50!black!30
+}
+
+\setbeamercolor{title separator}{
+	use=progress bar,
+	parent=progress bar
+}
+\setbeamercolor{progress bar in head/foot}{%
+	use=progress bar,
+	parent=progress bar
+}
+
+\setbeamercolor{normal text}{fg=black!15}
+\setbeamercolor{background canvas}{bg=black!80}
+
+\setbeamercolor{progress bar in section page}{
+	use=progress bar,
+	parent=progress bar
+}
+
+\setbeamerfont*{title}{family=\headerfont,series=\bfseries,size*={22pt}{22pt}}%\huge}
+\setbeamerfont*{subtitle}{family=\headerfont,series=\bfseries,size*={15pt}{15pt}}
+
+\setbeamerfont*{author}{family=\headerfont, series=\bfseries, size=\normalsize}
+\setbeamerfont*{institute}{family=\headerfont, series=\bfseries, size=\normalsize}
+
+\setbeamertemplate{title graphic}{
+	\vbox to 0pt {
+		\vspace*{\baselineskip}
+		\inserttitlegraphic
+	}%
+	\nointerlineskip%
+	\vspace{3\baselineskip}
+}
+
+\newcounter{titleindent}
+
+\ExplSyntaxOn
+\dim_new:N \g_cccamp_titleindent_dim
+
+\cs_new:Nn \cccamp_newline_with_indent: {
+	\dim_gadd:Nn \g_cccamp_titleindent_dim {8mm}
+	\newline
+	\hspace*{\g_cccamp_titleindent_dim}
+}
+
+\setbeamertemplate{title}{
+	\inserttitle
+}
+
+
+\setbeamertemplate{subtitle}{
+	\insertsubtitle
+}
+
+\defbeamertemplate*{title~with~subtitle}{cccamp19}{
+	\parbox{.7\textwidth}{%
+		\raggedright
+		\dim_zero:N \g_cccamp_titleindent_dim
+		\let\\\cccamp_newline_with_indent:
+		\ifx\inserttile\@empty\else\usebeamertemplate*{title}\fi%
+		\ifx\insertsubtitle\@empty\else
+		\dim_gadd:Nn \g_cccamp_titleindent_dim {8mm}
+		\par\vspace{2mm}
+		\hspace*{\g_cccamp_titleindent_dim}
+		\parbox{\dim_eval:n {\linewidth-\g_cccamp_titleindent_dim}}{
+			\raggedright
+			\dim_gzero:N \g_cccamp_titleindent_dim
+			\let\\\cccamp_newline_with_indent:
+			\usebeamertemplate*{subtitle}
+		}
+		\fi
+	}%
+}
+
+\ExplSyntaxOff
+
+\makeatletter
+
+\setbeamertemplate{title separator}{
+	\vspace*{-.5\baselineskip}
+	\textcolor{fg}{\rule{\textwidth}{\metropolis@titleseparator@linewidth}}
+}
+
+\ExplSyntaxOn
+\def\calcoffset{
+\def\offset{\dim_eval:n {\fp_eval:n { (rand()-.5)}\baselineskip}}
+}
+\ExplSyntaxOff
+
+\ExplSyntaxOn
+\setbeamertemplate{progress~ bar~ in~ head/foot}{
+	\nointerlineskip
+	\ifnum\insertframenumber=1
+	\setlength\metropolis@progressinheadfoot{1.5\baselineskip}
+	\else
+	\ifnum\insertframenumber=\inserttotalframenumber
+	\setlength\metropolis@progressinheadfoot{\paperheight+\baselineskip}%top end of bar
+	\else
+	\setlength{\metropolis@progressinheadfoot}{%
+		\paperheight * \ratio{\insertframenumber pt}{\inserttotalframenumber pt}%
+	}%
+	\fi
+	\fi
+	\hfill\smash{%\rule{1cm}{\paperheight}}
+	\begin{beamercolorbox}[wd=1cm,ht=\paperheight]{progress~ bar~ in~ head/foot}
+%		\rule{\linewidth}{\paperheight}
+		\begin{tikzpicture}
+		\useasboundingbox (0,0) rectangle (\linewidth, \metropolis@progressinheadfoot);
+		\begin{scope}
+		\clip (0,0) rectangle (\linewidth, \paperheight);
+		\node[anchor=south] at (.5\linewidth,0) {\usebeamertemplate{frame~numbering}};
+		\exp_args:Nv \tl_if_eq:nnF {g_CCCamp19_rocket_tl} {none} {
+		\exp_args:Nv \tl_if_eq:nnTF {g_CCCamp19_rocket_tl} {all} {
+			\calcoffset
+			\node[anchor=north]  at ([yshift=\offset].2\linewidth, \metropolis@progressinheadfoot) {\includegraphics[height=2\baselineskip]{resources/chaos}};
+%		\pgfmathparse{random()}
+			\calcoffset
+			\node[anchor=north]  at ([yshift=\offset].5\linewidth, \metropolis@progressinheadfoot) {\includegraphics[height=2\baselineskip]{resources/communication}};
+			\calcoffset
+			\node[anchor=north]  at ([yshift=\offset].8\linewidth, \metropolis@progressinheadfoot) {\includegraphics[height=2\baselineskip]{resources/camp}};
+		}{
+			\node[anchor=north]  at (.5\linewidth, \metropolis@progressinheadfoot) {\includegraphics[height=2\baselineskip]{resources/\tl_use:c {g_CCCamp19_rocket_tl}}};
+		}
+		}
+%	\ExplSyntaxOff
+		\end{scope}
+		
+%		\pgfmathparse{random()*\baselineskip}\pgfmathresult pt
+%		\fill[fg] (0,0) rectangle (\metropolis@progressinheadfoot, \metropolis@progressinheadfoot@linewidth);
+%		\begin{scope}[overlay]
+%		\path (\metropolis@progressinheadfoot, \metropolis@progressinheadfoot@linewidth) ++(0, .1) ++ (0,rand*0.1) node[above, rotate=rand*30] {\includegraphics[height=1.5\baselineskip]{resources/hase}};
+%		\end{scope}
+		\end{tikzpicture}%
+	\end{beamercolorbox}%
+	}
+}
+
+\ExplSyntaxOff
+\AtBeginSection{
+	\ifbeamer@inframe
+	\sectionpage
+	\else
+	\frame[c,noframenumbering]{\sectionpage}
+	\fi
+}
+
+
+\usetikzlibrary{math}
+
+\renewcommand*{\sectionpage}{
+	\centering
+	\begin{minipage}{22em}
+		\raggedright
+		\usebeamercolor[fg]{section title}
+		\usebeamerfont{section title}
+		\insertsectionhead\\[-1ex]
+		\usebeamertemplate*{progress bar in section page}
+		\par
+		\ifx\insertsubsectionhead\@empty\else%
+		\usebeamercolor[fg]{subsection title}%
+		\usebeamerfont{subsection title}%
+		\insertsubsectionhead
+		\fi
+	\end{minipage}
+}
+
+
+%Title page
+
+%\setbeamertemplate{background canvas}{\includegraphics[width=\paperwidth]{resources/camp_start_(photo_richard-nolan)_clean}}
+%: \defbeamertemplate{itemize item}{double arrow}{$\Rightarrow$}
+
+\ExplSyntaxOn
+\addtobeamertemplate{frametitle}{%
+%	\bool_show:c {g_CCCamp19_frametitle_bool} 
+	\bool_if:cT {g_CCCamp19_frametitle_bool} {
+		\int_compare:nTF {\int_use:c {g_CCCamp19_frametitle_int} = 3} 
+			{\int_gset:cn {g_CCCamp19_frametitle_int} {1}}
+			{\int_gincr:c {g_CCCamp19_frametitle_int}}
+	}
+}{}
+\ExplSyntaxOff
+
+\setbeamercolor{title page}{fg=white,bg=red}
+
+\setbeamertemplate{title page}{%
+	\begin{beamercolorbox}[ht=.5cm,dp=\dimexpr\paperheight-.5cm,sep=0pt,wd=\paperwidth]{title page}%Hard coded, since hard coded in beamer.cls
+	\raisebox{\dimexpr-\height+\baselineskip-\p@}{%
+		\begin{tikzpicture}[every node/.style={inner sep=5mm}]
+		\node[inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{\csname g_CCCamp19_titleimage_tl\endcsname}};
+		\node[anchor=north west] (title) at \csname g_CCCamp19_title_position_tl\endcsname  {
+			\ifx\inserttile\@empty\else\usebeamertemplate*{title with subtitle}\fi%
+		};
+%		\node[anchor=north east] (subtitle) at ([xshift=1em]title.south east) {\ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi};
+		%%	\ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+		\node[anchor=south west] (institute) at  (-.5\paperwidth,-.5\paperheight) {	\parbox{.5\textwidth}{
+			\ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+			\ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
+			}
+		};
+		\node[anchor=south east] (logo) at (.5\paperwidth,-.5\paperheight) {\includegraphics[width=.2\textwidth]{resources/cccamp19_logo_colors_RGB}};
+		\end{tikzpicture}
+	}
+	\end{beamercolorbox}
+}
+	%\unskip\par
+%	\textcolor{white}{\rule{2cm}{2cm}}%
+%	\setbeamertemplate{progress bar in head/foot}{}%
+%	\hspace*{\dimexpr-\beamer@leftmargin-\beamer@sidebarwidth}\raisebox{-\height+\dp\strutbox}[0pt][0pt]{%
+%	\includegraphics[width=\paperwidth]{resources/camp_start_(photo_richard-nolan)_clean}}%
+%	\par\nointerlineskip
+%	\headerfont\color{white}%
+%	\vspace*{-\topskip+}
+%\nointerlineskip
+%	test\rule{1cm}{\ht\strutbox} 
+%	\smash{\rule{1cm}{\headheight}}%1cm}
+%	\smash{
+%	test
+%	\raisebox{-\height+.5cm}{%
+%	\begin{tikzpicture}
+%%	\fill[red](0,0)rectangle(2cm,.5cm);
+%	\fill[fill=blue!30](0,\headheight)rectangle(\paperwidth,\dimexpr\headheight-\paperheight);
+%	\useasboundingbox(0,0);
+%%	\useasboundingbox[fill=blue!10](\dimexpr-.5\paperwidth-\beamer@leftmargin\relax,-.5\paperheight)rectangle(.5\paperwidth,.5\paperheight);
+%	\begin{scope}[xshift=.5\paperwidth,yshift=-.5\paperheight]
+%	\node[anchor=north west] (title) at (-.05\textwidth,.3\paperheight) {\ifx\inserttile\@empty\else\usebeamertemplate*{title}\fi};
+%	\node[anchor=north east] (subtitle) at ([xshift=1em]title.south east) {\ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi};
+%	%%	\ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+%	\node[anchor=south west] (institute) at  (-.55\textwidth,-.45\paperheight) {\ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi};
+%	\node[anchor=south west] (author) at (institute.north west){	\ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi};
+%	\node[anchor=south east] (logo) at (.6\textwidth,-.45\paperheight) {\includegraphics[width=.2\textwidth]{resources/cccamp19_logo_colors_RGB}};
+%%	\draw (logo.south east) circle(3mm);
+%	\end{scope}
+%	\end{tikzpicture}%
+%	}%s
+%%	\begin{minipage}[c][\paperheight]{\textwidth}
+%%		\color{white}
+%%%		\ifx\inserttitlegraphic\@empty\else\usebeamertemplate*{title graphic}\fi
+%%		\vfill%
+%%		\ifx\inserttile\@empty\else\usebeamertemplate*{title}\fi
+%afdsdfoiaj
+%%		\ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
+%%		\usebeamertemplate*{title separator}
+%%	\ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+%%	\ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+%%	\ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
+%%	\vfill
+%%	\vspace*{1mm}
+%\end{minipage}
+%}
+
+\setbeamersize{sidebar width right=1cm}
+%\setbeamertemplate{sidebar right}{
+%test \par 
+%\rule{\linewidth}{1pt}
+%\begin{beamercolorbox}{fg}
+%\rlap{TE\textcolor{red}{ST}}
+%\end{beamercolorbox}
+%}
+
+\newdimen\beamer@sidebarwidth
+\newdimen\beamer@headheight
+%\usebeamerfont{frametitle}
+\beamer@sidebarwidth=1cm
+
+\setbeamertemplate{sidebar right}{}%{sidebar theme}
+%{
+%	\beamer@tempdim=\beamer@sidebarwidth%
+%%	\advance\beamer@tempdim by -6pt%
+%	{\usebeamerfont{title in sidebar}%
+%		\vskip1.5em%
+%		\hskip3pt%
+%		\usebeamercolor[fg]{title in sidebar}%
+%		\insertshorttitle[width=\beamer@tempdim,center,respectlinebreaks]\par%
+%		\vskip1.25em%
+%	}%
+%	{%
+%		\hskip3pt%
+%		\usebeamercolor[fg]{author in sidebar}%
+%		\usebeamerfont{author in sidebar}%
+%		\insertshortauthor[width=\beamer@tempdim,center,respectlinebreaks]\par%
+%		\vskip1.25em%
+%	}%
+%	\insertverticalnavigation{\beamer@sidebarwidth}%
+%	\vfill
+%	\ifx\beamer@sidebarside\beamer@lefttext%
+%	\else%
+%	\usebeamercolor{normal text}%
+%	\llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+%	\vskip2pt%
+%	\fi%
+%}%
+
+\def\maketitle{%
+	\ifbeamer@inframe
+	\titlepage
+	\else
+	\frame[plain,noframenumbering]{\titlepage}
+	\fi
+}
+\def\titlepage{%
+	\usebeamertemplate{title page}
+}
+
+
+\defbeamertemplate*{author}{cccamp19}{
+%	\vspace*{2em}
+	\insertauthor%
+	\par%
+%	\vspace*{0.25em}
+}
+\defbeamertemplate*{date}{cccamp19}{
+	\insertdate%
+	\par%
+}
+\defbeamertemplate*{institute}{cccamp19}{
+%	\vspace*{3mm}
+	\insertinstitute%
+	\par%
+}
+
+\urlstyle{same}
+\DeclareUrlCommand\output@email{\urlstyle{same}\def\UrlLeft{<}\def\UrlRight{>}}
+\newcommand*{\email}[1]{\href{mailto:#1}{\output@email{#1}}}
+
+%LaTeX Logo kerning adjustment
+\DeclareRobustCommand{\LaTeX}{%
+	{L\setbox\z@\hbox{\check@mathfonts \fontsize\sf@size\z@
+			\math@fontsfalse\selectfont A}\kern-.57\wd\z@
+		\sbox\tw@ T\vbox to \ht\tw@{\copy\z@ \vss}\kern-.2\wd\z@}%
+	{%
+		\ifdim\fontdimen1\font=\z@ \else \count\z@=\fontdimen5\font
+		\multiply\count\z@ by 64\relax\divide\count\z@ by\p@
+		\count\tw@=\fontdimen1\font \multiply\count\tw@ by\count\z@
+		\divide\count\tw@ by 64\relax\divide\count\tw@ by\tw@
+		\kern-\the\count\tw@ sp\relax\fi}%
+	\TeX}
+
+\endinput

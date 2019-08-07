@@ -1,0 +1,106 @@
+% !TeX program=lualatex
+
+%Requires lualatex or xelatex and installed fontss
+\documentclass[aspectratio=169,t]{beamer}
+\usetheme[
+	%Here you can add package options for the theme
+	numbering=fraction,% fraction/counter/none
+]{cccamp19}
+
+
+
+
+
+\usepackage{layout}
+
+%local definitions, generally not necessary
+\newcommand*{\code}[1]{\texttt{#1}}
+\begin{document}
+	
+
+%Linebreaks set with \\ also incrase the base indent	
+\title{CCCamp19-beamer}
+\subtitle{\LaTeX{} beamer for CCCamp19}
+\author{marei \email{chaos@texhackse.de}}
+
+\maketitle
+	
+\begin{frame}{Fonts}
+	This bundle requires Marvel and Fira Sans fonts installed.
+	
+	Fira is part of \TeX{} Live and Mik\TeX{}. Marvel can be downloaded from GitHub \url{https://github.com/google/fonts/tree/master/ofl/marvel}
+	
+	The normal Text Font ist Fira Sans. Code Font is Fira Code, with Ligatures enabled (shown on next slide).
+		
+	Examples for Marvel:
+	\headerfont marvel regular\\
+	\textit{marvel italic}\\
+	\bfseries marvel bold\\
+	\itshape marvel bold italic
+\end{frame}
+
+	
+\begin{frame}[fragile]{The Code Font Supports some Ligatures}
+	Turn them off using package option: \code{codeligatures=off}
+	
+	This option can only be set globally.
+	\begin{verbatim} 
+	=>
+	==
+	!=	 
+	<--
+	<->
+	www	
+	\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Package Options}
+	You can either use the coloring options as package option or locally. To change it inside the Document use
+	
+	\begin{verbatim}
+	\ChangeOptions{rocket=communication}
+	\end{verbatim}
+	The available options are:
+	\begin{description}
+	\item[rocket] choose rocket(s) for progressbar
+	\item[frametitle] color the frametitle or switch back to changing
+	\item[titleimage] replace the fullpage-image for the title slide
+	\item[titlepos] Coordinate of north west corner of the title \& subtitle box
+	\end{description}
+\end{frame}
+
+\begin{frame}{frametitle}
+In default setting the color are chaging from slide to slide. 
+To choose a specific color set frametitle to one of the values:
+
+chaos, communication, camp, all
+\end{frame}
+
+\begin{frame}{rocket}
+The rocket option acts similar to the frametitle one. 
+
+Beside the values chaos, communication, camp and all, there is also a none-option to turn off all rockets.
+\end{frame}
+
+\begin{frame}[plain]{A plain frame}
+Inhalt...
+
+this is another possibility to locally turn off the rockets
+\end{frame}
+
+
+%Example for Changing the Layout.
+\ChangeOptions{rocket=chaos,frametitle=chaos}
+
+
+\begin{frame}{Design Credits}
+The Design for this template is based on the official Camp Design by Sven Sedivy.
+
+It can be found on \url{https://events.ccc.de/2019/07/09/design-release-chaos-communication-camp-2019/}
+\end{frame}
+
+\begin{frame}
+	tbc
+\end{frame}
+
+\end{document}
