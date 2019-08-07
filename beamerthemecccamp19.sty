@@ -48,8 +48,6 @@
 
 \newcommand*\ChangeOptions[1]{\keys_set:nn {CCCamp19}{#1}}
 
-\bool_show:c {g_CCCamp19_codeligatures_bool}
-
 \bool_if:cTF {g_CCCamp19_codeligatures_bool} {
 	\setmonofont[
 	Contextuals={Alternate}
@@ -94,7 +92,6 @@
 \colorlet{CCCamp19-1}{chaosblue}
 \colorlet{CCCamp19-2}{commyellow}
 \colorlet{CCCamp19-3}{campgreen}
-%\setbeamercolor*{frametitle}{fg=chaosblue-dark,bg=chaosblue}
 \ExplSyntaxOn
 \setbeamercolor*{frametitle}{fg=CCCamp19-\int_use:c {g_CCCamp19_frametitle_int} ,bg=black!80}
 \ExplSyntaxOff
@@ -104,10 +101,8 @@
 
 
 \setbeamercolor{progress bar}{%
-%	use=easterhegg,
 	fg=white,
 	bg=black!80
-%	bg=easterhegg.fg!50!black!30
 }
 
 \setbeamercolor{title separator}{
@@ -211,9 +206,8 @@
 	}%
 	\fi
 	\fi
-	\hfill\smash{%\rule{1cm}{\paperheight}}
+	\hfill\smash{
 	\begin{beamercolorbox}[wd=1cm,ht=\paperheight]{progress~ bar~ in~ head/foot}
-%		\rule{\linewidth}{\paperheight}
 		\begin{tikzpicture}
 		\useasboundingbox (0,0) rectangle (\linewidth, \metropolis@progressinheadfoot);
 		\begin{scope}
@@ -223,7 +217,6 @@
 		\exp_args:Nv \tl_if_eq:nnTF {g_CCCamp19_rocket_tl} {all} {
 			\calcoffset
 			\node[anchor=north]  at ([yshift=\offset].2\linewidth, \metropolis@progressinheadfoot) {\includegraphics[height=2\baselineskip]{resources/chaos}};
-%		\pgfmathparse{random()}
 			\calcoffset
 			\node[anchor=north]  at ([yshift=\offset].5\linewidth, \metropolis@progressinheadfoot) {\includegraphics[height=2\baselineskip]{resources/communication}};
 			\calcoffset
@@ -232,14 +225,7 @@
 			\node[anchor=north]  at (.5\linewidth, \metropolis@progressinheadfoot) {\includegraphics[height=2\baselineskip]{resources/\tl_use:c {g_CCCamp19_rocket_tl}}};
 		}
 		}
-%	\ExplSyntaxOff
 		\end{scope}
-		
-%		\pgfmathparse{random()*\baselineskip}\pgfmathresult pt
-%		\fill[fg] (0,0) rectangle (\metropolis@progressinheadfoot, \metropolis@progressinheadfoot@linewidth);
-%		\begin{scope}[overlay]
-%		\path (\metropolis@progressinheadfoot, \metropolis@progressinheadfoot@linewidth) ++(0, .1) ++ (0,rand*0.1) node[above, rotate=rand*30] {\includegraphics[height=1.5\baselineskip]{resources/hase}};
-%		\end{scope}
 		\end{tikzpicture}%
 	\end{beamercolorbox}%
 	}
@@ -275,10 +261,6 @@
 }
 
 
-%Title page
-
-%\setbeamertemplate{background canvas}{\includegraphics[width=\paperwidth]{resources/camp_start_(photo_richard-nolan)_clean}}
-%: \defbeamertemplate{itemize item}{double arrow}{$\Rightarrow$}
 
 \ExplSyntaxOn
 \addtobeamertemplate{frametitle}{%
@@ -301,8 +283,6 @@
 		\node[anchor=north west] (title) at \csname g_CCCamp19_title_position_tl\endcsname  {
 			\ifx\inserttile\@empty\else\usebeamertemplate*{title with subtitle}\fi%
 		};
-%		\node[anchor=north east] (subtitle) at ([xshift=1em]title.south east) {\ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi};
-		%%	\ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
 		\node[anchor=south west] (institute) at  (-.5\paperwidth,-.5\paperheight) {	\parbox{.5\textwidth}{
 			\ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
 			\ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
@@ -313,93 +293,16 @@
 	}
 	\end{beamercolorbox}
 }
-	%\unskip\par
-%	\textcolor{white}{\rule{2cm}{2cm}}%
-%	\setbeamertemplate{progress bar in head/foot}{}%
-%	\hspace*{\dimexpr-\beamer@leftmargin-\beamer@sidebarwidth}\raisebox{-\height+\dp\strutbox}[0pt][0pt]{%
-%	\includegraphics[width=\paperwidth]{resources/camp_start_(photo_richard-nolan)_clean}}%
-%	\par\nointerlineskip
-%	\headerfont\color{white}%
-%	\vspace*{-\topskip+}
-%\nointerlineskip
-%	test\rule{1cm}{\ht\strutbox} 
-%	\smash{\rule{1cm}{\headheight}}%1cm}
-%	\smash{
-%	test
-%	\raisebox{-\height+.5cm}{%
-%	\begin{tikzpicture}
-%%	\fill[red](0,0)rectangle(2cm,.5cm);
-%	\fill[fill=blue!30](0,\headheight)rectangle(\paperwidth,\dimexpr\headheight-\paperheight);
-%	\useasboundingbox(0,0);
-%%	\useasboundingbox[fill=blue!10](\dimexpr-.5\paperwidth-\beamer@leftmargin\relax,-.5\paperheight)rectangle(.5\paperwidth,.5\paperheight);
-%	\begin{scope}[xshift=.5\paperwidth,yshift=-.5\paperheight]
-%	\node[anchor=north west] (title) at (-.05\textwidth,.3\paperheight) {\ifx\inserttile\@empty\else\usebeamertemplate*{title}\fi};
-%	\node[anchor=north east] (subtitle) at ([xshift=1em]title.south east) {\ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi};
-%	%%	\ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
-%	\node[anchor=south west] (institute) at  (-.55\textwidth,-.45\paperheight) {\ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi};
-%	\node[anchor=south west] (author) at (institute.north west){	\ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi};
-%	\node[anchor=south east] (logo) at (.6\textwidth,-.45\paperheight) {\includegraphics[width=.2\textwidth]{resources/cccamp19_logo_colors_RGB}};
-%%	\draw (logo.south east) circle(3mm);
-%	\end{scope}
-%	\end{tikzpicture}%
-%	}%s
-%%	\begin{minipage}[c][\paperheight]{\textwidth}
-%%		\color{white}
-%%%		\ifx\inserttitlegraphic\@empty\else\usebeamertemplate*{title graphic}\fi
-%%		\vfill%
-%%		\ifx\inserttile\@empty\else\usebeamertemplate*{title}\fi
-%afdsdfoiaj
-%%		\ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
-%%		\usebeamertemplate*{title separator}
-%%	\ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
-%%	\ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
-%%	\ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
-%%	\vfill
-%%	\vspace*{1mm}
-%\end{minipage}
-%}
+
 
 \setbeamersize{sidebar width right=1cm}
-%\setbeamertemplate{sidebar right}{
-%test \par 
-%\rule{\linewidth}{1pt}
-%\begin{beamercolorbox}{fg}
-%\rlap{TE\textcolor{red}{ST}}
-%\end{beamercolorbox}
-%}
 
 \newdimen\beamer@sidebarwidth
 \newdimen\beamer@headheight
-%\usebeamerfont{frametitle}
+
 \beamer@sidebarwidth=1cm
 
-\setbeamertemplate{sidebar right}{}%{sidebar theme}
-%{
-%	\beamer@tempdim=\beamer@sidebarwidth%
-%%	\advance\beamer@tempdim by -6pt%
-%	{\usebeamerfont{title in sidebar}%
-%		\vskip1.5em%
-%		\hskip3pt%
-%		\usebeamercolor[fg]{title in sidebar}%
-%		\insertshorttitle[width=\beamer@tempdim,center,respectlinebreaks]\par%
-%		\vskip1.25em%
-%	}%
-%	{%
-%		\hskip3pt%
-%		\usebeamercolor[fg]{author in sidebar}%
-%		\usebeamerfont{author in sidebar}%
-%		\insertshortauthor[width=\beamer@tempdim,center,respectlinebreaks]\par%
-%		\vskip1.25em%
-%	}%
-%	\insertverticalnavigation{\beamer@sidebarwidth}%
-%	\vfill
-%	\ifx\beamer@sidebarside\beamer@lefttext%
-%	\else%
-%	\usebeamercolor{normal text}%
-%	\llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
-%	\vskip2pt%
-%	\fi%
-%}%
+\setbeamertemplate{sidebar right}{}
 
 \def\maketitle{%
 	\ifbeamer@inframe
