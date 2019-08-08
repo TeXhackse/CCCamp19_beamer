@@ -9,7 +9,8 @@ The Rockets and Logo have been cropped and converted to pdf. Maybe some of the I
 The easiest way to access the fonts is installing them as System Fonts and 
 
 ## Usage
-See demonstration file.
+Please ensure you are using a recent TeX Distribution. It works on both, MikTeX as well as TeX Live, but due to simplification with LaTeX3-mechanism outdated Versions will throw errors, as mentioned in #1.
 
+For detailed information see the demonstration file.
 
 
